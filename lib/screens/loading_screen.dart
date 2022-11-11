@@ -52,18 +52,23 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    //Get the current location
+    _determinePosition().then(
+      (value) => print('lat: ${value.latitude} long: ${value.longitude}'),
+      onError: (e) => print(e),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: ElevatedButton(
           child: const Text('Get Location'),
-          onPressed: () {
-            //Get the current location
-            _determinePosition().then(
-              (value) =>
-                  print('lat: ${value.latitude} long: ${value.longitude}'),
-            );
-          },
+          onPressed: () {},
         ),
       ),
     );
