@@ -40,6 +40,9 @@ dependencies:
   # A Flutter geolocation plugin which provides easy access to platform specific location services
   geolocator: ^9.0.2
 
+  # A composable, Future-based library for making HTTP requests.
+  http: ^0.13.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
