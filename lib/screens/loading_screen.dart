@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/screens/location_screen.dart';
 import 'package:weather_app/services/location.dart';
 import 'package:weather_app/services/networking.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({super.key});
@@ -31,13 +33,21 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
       if (network.statusCode == 200 && network.errorMsg == null) {
         final data = network.weatherData;
-        // var description = data['weather'][0]['description'];
-        // var temp = data['main']['temp'];
-        // var city = data['name'];
 
-        // print(description);
-        // print(temp);
-        // print(city);
+        var description = data['weather'][0]['description'];
+        var temp = data['main']['temp'];
+        var city = data['name'];
+
+        print(description);
+        print(temp);
+        print(city);
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => const LocationScreen(),
+          ),
+        );
       } else {
         print('networkStatusCode: ${network.statusCode}');
         print('networkErrorMessage: ${network.errorMsg}');
@@ -49,11 +59,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
-        child: ElevatedButton(
-          child: const Text('Get Location'),
-          onPressed: () {},
+        child: SpinKitDoubleBounce(
+          color: Colors.white,
+          size: 100,
         ),
       ),
     );
