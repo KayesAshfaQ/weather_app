@@ -34,18 +34,12 @@ class _LoadingScreenState extends State<LoadingScreen> {
       if (network.statusCode == 200 && network.errorMsg == null) {
         final data = network.weatherData;
 
-        var description = data['weather'][0]['description'];
-        var temp = data['main']['temp'];
-        var city = data['name'];
-
-        print(description);
-        print(temp);
-        print(city);
-
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (BuildContext context) => const LocationScreen(),
+            builder: (BuildContext context) => LocationScreen(
+              locationWeather: data,
+            ),
           ),
         );
       } else {
