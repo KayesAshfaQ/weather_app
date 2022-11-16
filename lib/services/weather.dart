@@ -1,4 +1,32 @@
+import 'package:weather_app/services/location.dart';
+import 'package:weather_app/services/networking.dart';
+
 class WeatherModel {
+
+  Future<dynamic> getWeather() async {
+    final location = Location();
+    await location.getUserLocation();
+
+    if (location.errorMsg == null) {
+      // print(location.latitude);
+      // print(location.longitude);
+
+      final network = NetworkHelper();
+      await network.getWeatherData(location.latitude!, location.longitude!);
+
+      if (network.statusCode == 200 &&
+          network.errorMsg == null &&
+          network.weatherData != null) {
+        return network.weatherData;
+      } else {
+        return Future.error(
+            'networkStatusCode: ${network.statusCode}\nnetworkErrorMessage: ${network.errorMsg}');
+      }
+    } else {
+      return Future.error('locationErrorMessage: ${location.errorMsg}');
+    }
+  }
+
   String getWeatherIcon(int condition) {
     if (condition < 300) {
       return '🌩';

@@ -16,6 +16,7 @@ class _LocationScreenState extends State<LocationScreen> {
   late String city;
   late String weatherIcon;
   late String message;
+  final weatherModel = WeatherModel();
 
   @override
   void initState() {
@@ -24,8 +25,6 @@ class _LocationScreenState extends State<LocationScreen> {
   }
 
   void updateUI(data) {
-    final weatherModel = WeatherModel();
-
     double t = data['main']['temp'];
     temp = t.toInt();
 
@@ -43,13 +42,13 @@ class _LocationScreenState extends State<LocationScreen> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/location_background.jpg'),
+            image: const AssetImage('images/location_background.jpg'),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
                 Colors.white.withOpacity(0.8), BlendMode.dstATop),
           ),
         ),
-        constraints: BoxConstraints.expand(),
+        constraints: const BoxConstraints.expand(),
         child: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -59,15 +58,22 @@ class _LocationScreenState extends State<LocationScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   TextButton(
-                    onPressed: () {},
-                    child: Icon(
+                    onPressed: () {
+                      weatherModel.getWeather().then((weatherData) {
+                        print(weatherData);
+                        updateUI(weatherData);
+                      }, onError: (error) {
+                        print(error);
+                      });
+                    },
+                    child: const Icon(
                       Icons.near_me,
                       size: 50.0,
                     ),
                   ),
                   TextButton(
                     onPressed: () {},
-                    child: Icon(
+                    child: const Icon(
                       Icons.location_city,
                       size: 50.0,
                     ),
@@ -75,7 +81,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.only(left: 15.0),
+                padding: const EdgeInsets.only(left: 15.0),
                 child: Row(
                   children: <Widget>[
                     Text(
@@ -90,7 +96,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(right: 15.0),
+                padding: const EdgeInsets.only(right: 15.0),
                 child: Text(
                   "$message in \n$city!",
                   textAlign: TextAlign.right,
