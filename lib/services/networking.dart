@@ -32,6 +32,7 @@ class NetworkHelper {
       if (responseCode == 200) {
         //print('responsecode $responseCode');
         weatherData = data;
+        print(weatherData);
       } else {
         errorMsg = data['message'];
       }
