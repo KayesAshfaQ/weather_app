@@ -61,7 +61,7 @@ class _LocationScreenState extends State<LocationScreen> {
                   TextButton(
                     onPressed: () {
                       weatherModel.getWeather().then((weatherData) {
-                        print(weatherData);
+                        //print(weatherData);
                         updateUI(weatherData);
                       }, onError: (error) {
                         print(error);
@@ -78,6 +78,17 @@ class _LocationScreenState extends State<LocationScreen> {
                         context,
                         MaterialPageRoute(builder: (context) => CityScreen()),
                       );
+
+                      if (typedName != null) {
+                        weatherModel.getCityWeather(typedName).then(
+                            (weatherData) {
+                          //print(weatherData);
+                          updateUI(weatherData);
+                        }, onError: (error) {
+                          print(error);
+                        });
+                      }
+
                       print(typedName);
                     },
                     child: const Icon(

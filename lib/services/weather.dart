@@ -2,7 +2,6 @@ import 'package:weather_app/services/location.dart';
 import 'package:weather_app/services/networking.dart';
 
 class WeatherModel {
-
   Future<dynamic> getWeather() async {
     final location = Location();
     await location.getUserLocation();
@@ -24,6 +23,20 @@ class WeatherModel {
       }
     } else {
       return Future.error('locationErrorMessage: ${location.errorMsg}');
+    }
+  }
+
+  Future<dynamic> getCityWeather(String cityName) async {
+    final network = NetworkHelper();
+    await network.getCityWeatherData(cityName);
+
+    if (network.statusCode == 200 &&
+        network.errorMsg == null &&
+        network.weatherData != null) {
+      return network.weatherData;
+    } else {
+      return Future.error(
+          'networkStatusCode: ${network.statusCode}\nnetworkErrorMessage: ${network.errorMsg}');
     }
   }
 
